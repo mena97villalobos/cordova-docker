@@ -3,6 +3,7 @@ name: publish
   - push
 jobs:
   publish-hello-docker-image:
+    permissions: write-all
     name: Publish Docker Image
     runs-on: ubuntu-latest
     steps:
