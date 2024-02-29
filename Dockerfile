@@ -79,5 +79,5 @@ RUN /home/linuxbrew/.linuxbrew/bin/brew install ghostscript
 USER root
 SHELL ["/bin/bash", "--login", "-i", "-c"]
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
-RUN source /root/.bashrc && nvm install 10.24.0
+RUN source /root/.bashrc && nvm install 10.24.0 && nvm use 10.24.0
 SHELL ["/bin/bash", "--login", "-c"]
