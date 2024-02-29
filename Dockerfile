@@ -4,8 +4,6 @@ FROM openjdk:${OPENJDK_VERSION}
 
 # Reference default value
 ARG OPENJDK_VERSION
-#https://github.com/nodesource/distributions/blob/master/README.md
-ARG NODEJS_VERSION=16
 #https://gradle.org/releases/
 ARG GRADLE_VERSION=7.6.3
 #https://www.npmjs.com/package/cordova?activeTab=versions
@@ -24,14 +22,6 @@ ENV ANDROID_HOME $ANDROID_SDK_ROOT
 ENV GRADLE_USER_HOME /opt/gradle
 ENV PATH $PATH:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$GRADLE_USER_HOME/bin
 ENV PATH=~/.linuxbrew/bin:~/.linuxbrew/sbin:$PATH
-
-# NodeJS
-RUN echo https://deb.nodesource.com/setup_${NODEJS_VERSION}.x
-RUN curl -sL https://deb.nodesource.com/setup_${NODEJS_VERSION}.x | bash -
-RUN apt -qq install -y nodejs
-
-# Cordova
-RUN npm i -g cordova@${CORDOVA_VERSION}
 
 # Gradle
 RUN curl -so /tmp/gradle-${GRADLE_VERSION}-bin.zip https://downloads.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
@@ -52,7 +42,6 @@ RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | sdkmanager --package_
 # Initial Setup
 RUN git config --global url."https://".insteadOf git://
 RUN export CORDOVA_ANDROID_GRADLE_DISTRIBUTION_URL="https\://services.gradle.org/distributions/gradle-7.6.3-all.zip"
-RUN npm config set strict-ssl false
 
 # BREW
 RUN apt-get update && \
@@ -81,3 +70,7 @@ SHELL ["/bin/bash", "--login", "-i", "-c"]
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
 RUN source /root/.bashrc && nvm install 10.24.0 && nvm use 10.24.0
 SHELL ["/bin/bash", "--login", "-c"]
+RUN npm config set strict-ssl false
+
+# Cordova
+RUN npm i -g cordova@${CORDOVA_VERSION}
