@@ -23,6 +23,7 @@ ENV ANDROID_SDK_ROOT /usr/local/android-sdk-linux
 ENV ANDROID_HOME $ANDROID_SDK_ROOT
 ENV GRADLE_USER_HOME /opt/gradle
 ENV PATH $PATH:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$GRADLE_USER_HOME/bin
+ENV PATH=~/.linuxbrew/bin:~/.linuxbrew/sbin:$PATH
 
 # NodeJS
 RUN echo https://deb.nodesource.com/setup_${NODEJS_VERSION}.x
@@ -52,3 +53,31 @@ RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | sdkmanager --package_
 RUN git config --global url."https://".insteadOf git://
 RUN export CORDOVA_ANDROID_GRADLE_DISTRIBUTION_URL="https\://services.gradle.org/distributions/gradle-7.6.3-all.zip"
 RUN npm config set strict-ssl false
+
+# BREW
+RUN apt-get update && \
+    apt-get install -y -q --allow-unauthenticated \
+    git \
+    sudo
+RUN useradd -m -s /bin/zsh linuxbrew && \
+    usermod -aG sudo linuxbrew &&  \
+    mkdir -p /home/linuxbrew/.linuxbrew && \
+    chown -R linuxbrew: /home/linuxbrew/.linuxbrew
+USER linuxbrew
+RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+
+USER root
+RUN chown -R $CONTAINER_USER: /home/linuxbrew/.linuxbrew
+
+# ICON GEN
+USER linuxbrew
+RUN /home/linuxbrew/.linuxbrew/bin/brew install imagemagick
+RUN /home/linuxbrew/.linuxbrew/bin/brew install ghostscript
+
+# NVM
+# Installing Node
+USER root
+SHELL ["/bin/bash", "--login", "-i", "-c"]
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
+RUN source /root/.bashrc && nvm install 10.24.0
+SHELL ["/bin/bash", "--login", "-c"]
