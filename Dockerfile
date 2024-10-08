@@ -59,7 +59,7 @@ RUN git config --global url."https://".insteadOf git://
 # NVM
 # Install NVM
 ENV NVM_DIR=/root/.nvm
-ENV NODE_VERSION=16.13.0
+ENV NODE_VERSION=10.24.1
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash \
     && . "$NVM_DIR/nvm.sh" \
