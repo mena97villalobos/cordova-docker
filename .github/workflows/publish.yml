@@ -17,6 +17,6 @@ jobs:
           password: '${{ secrets.GITHUB_TOKEN }}'
       - name: Build the cordova Docker image
         run: |
-          docker build . --tag ghcr.io/mena97villalobos/cordova:latest
-          docker run ghcr.io/mena97villalobos/cordova:latest
-          docker push ghcr.io/mena97villalobos/cordova:latest
+          docker build . --tag ghcr.io/mena97villalobos/cordova:1.0.0
+          docker run ghcr.io/mena97villalobos/cordova:1.0.0
+          docker push ghcr.io/mena97villalobos/cordova:1.0.0
