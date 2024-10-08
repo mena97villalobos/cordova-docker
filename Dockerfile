@@ -79,3 +79,5 @@ RUN npm config set strict-ssl false
 # Cordova
 RUN npm i -g cordova@${CORDOVA_VERSION}
 RUN npm i -g grunt
+
+CMD ["bash"]
