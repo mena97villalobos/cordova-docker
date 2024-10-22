@@ -62,8 +62,16 @@ ENV NVM_DIR=/root/.nvm
 ENV NODE_VERSION=10.24.1
 ENV NODE_VERSION_SECONDARY=16.13.0 
 
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash \
-    && . "$NVM_DIR/nvm.sh" \
+# Install NVM (Node Version Manager)
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+
+# Add NVM to the PATH and load NVM
+RUN echo "export NVM_DIR=\"$NVM_DIR\"" >> /root/.bashrc && \
+    echo "[ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\"" >> /root/.bashrc && \
+    echo "[ -s \"$NVM_DIR/bash_completion\" ] && \. \"$NVM_DIR/bash_completion\"" >> /root/.bashrc
+
+
+RUN . "$NVM_DIR/nvm.sh" \
     && nvm install $NODE_VERSION_SECONDARY \
     && nvm install $NODE_VERSION \
     && nvm alias default $NODE_VERSION \
