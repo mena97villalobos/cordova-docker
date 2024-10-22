@@ -90,6 +90,5 @@ RUN npm config set strict-ssl false
 RUN npm i -g cordova@${CORDOVA_VERSION}
 RUN npm i -g grunt
 RUN npm i -g bower
-RUN source /root/.bashrc
-
-CMD ["bash"]
+RUN bash -c "source /root/.bashrc"
+CMD ["bash", "-l"]
